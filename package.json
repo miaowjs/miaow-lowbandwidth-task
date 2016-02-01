@@ -16,7 +16,8 @@
     "mocha": "^2.4.4"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "postpublish": "cnpm sync miaow-lowbandwidth-task"
   },
   "engines": {
     "node": ">=0.10"
