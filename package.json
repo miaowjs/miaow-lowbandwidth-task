@@ -1,0 +1,24 @@
+{
+  "name": "miaow-lowbandwidth-task",
+  "description": "生成低带宽模式背景图片引用样式",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^1.5.2",
+    "gm": "^1.21.1",
+    "lodash": "^4.0.1",
+    "postcss": "^5.0.14"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^4.0.0",
+    "miaow": "^5.3.0",
+    "mocha": "^2.4.4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}

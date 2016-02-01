@@ -1,0 +1,7 @@
+.foo, .bar {
+  background: url(./foo.png) repeat;
+}
+
+.bar {
+  font-weight: bolder;
+}
