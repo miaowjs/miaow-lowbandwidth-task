@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var async = require('async');
-var gm = require('gm');
+var images = require('images');
 var path = require('path');
 var postcss = require('postcss');
 
@@ -35,34 +35,31 @@ function getImageInfo(context, backgroundImageList, backgroundNodeList, callback
   async.eachSeries(
     backgroundImageList,
     function(backgroundImage, callback) {
-      async.series([
-        function(callback) {
-          context.resolveModule(backgroundImage.src, function(err, module) {
-            if (err) {
-              return callback(err);
-            }
-
-            backgroundImage.url = module.url;
-            backgroundImage.src = module.src;
-            callback();
-          });
-        },
-
-        function(callback) {
-          gm(path.resolve(context.context, backgroundImage.src))
-            .identify(function(err, data) {
-              if (err) {
-                return callback(err);
-              }
-
-              backgroundImage.width = data.size.width;
-              backgroundImage.height = data.size.height;
-              backgroundImage.format = data.format;
-
-              callback();
-            });
+      context.resolveModule(backgroundImage.src, function(err, module) {
+        if (err) {
+          return callback(err);
         }
-      ], callback);
+
+        backgroundImage.url = module.url;
+        backgroundImage.src = module.src;
+
+        var image;
+        var size;
+
+        try {
+          image = images(path.resolve(context.context, backgroundImage.src));
+          size = image.size();
+        } catch(err) {
+          return callback(err);
+        }
+
+        backgroundImage.image = image;
+        backgroundImage.width = size.width;
+        backgroundImage.height = size.height;
+        backgroundImage.format = path.extname(backgroundImage.src);
+
+        callback();
+      });
     },
 
     function(err) {
@@ -77,27 +74,29 @@ function scaleImage(context, backgroundImageList, backgroundNodeList, callback) 
       var width = backgroundImage.width / 2;
       var height = backgroundImage.height / 2;
 
-      gm(path.resolve(context.context, backgroundImage.src))
-        .resize(width, height)
-        .toBuffer(backgroundImage.format, function (err, contents) {
-          if (err) {
-            return callback(err);
-          }
+      var contents;
 
-          var src = backgroundImage.src;
-          var extname = path.extname(src);
+      try {
+        contents = backgroundImage.image
+          .resize(width, height)
+          .encode(backgroundImage.format);
+      } catch(err) {
+        return callback(err);
+      }
 
-          src = src.replace(new RegExp(extname + '$'), '.lowbandwidth' + extname);
+      var src = backgroundImage.src;
+      var extname = path.extname(src);
 
-          context.emitModule(src, contents, function(err, module) {
-            if (err) {
-              return callback(err);
-            }
+      src = src.replace(new RegExp(extname + '$'), '.lowbandwidth' + extname);
 
-            backgroundImage.scaled = module.url;
-            callback();
-          });
-        });
+      context.emitModule(src, contents, function(err, module) {
+        if (err) {
+          return callback(err);
+        }
+
+        backgroundImage.scaled = module.url;
+        callback();
+      });
     },
 
     function(err) {

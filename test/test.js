@@ -30,10 +30,10 @@ describe('miaow-lowbandwidth-task', function() {
   });
 
   it('修改样式', function() {
-    assert.equal(log.modules['foo.css'].destHash, 'f572752b82eed04247f8bed0811f537a');
+    assert.equal(log.modules['foo.css'].destHash, 'dc1fa44749ee90f9c4bc280bd73c47d9');
   });
 
   it('生成低流量图片', function() {
-    assert.equal(log.modules['foo.lowbandwidth.png'].destHash, 'f4e73883ae35fd2d63ec352cf222e74d');
+    assert.equal(log.modules['foo.lowbandwidth.png'].destHash, 'fe3f1ada24a1a4e7c45be03b957d09c4');
   });
 });
