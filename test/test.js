@@ -30,7 +30,7 @@ describe('miaow-lowbandwidth-task', function() {
   });
 
   it('修改样式', function() {
-    assert.equal(log.modules['foo.css'].destHash, 'f572752b82eed04247f8bed0811f537a');
+    assert.equal(log.modules['foo.css'].destHash, '38b747114e77681cac428dc166c2e6b4');
   });
 
   it('生成低流量图片', function() {

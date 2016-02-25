@@ -52,7 +52,7 @@ module.exports = function(options, callback) {
       _.each(backgroundNodeList, function(backgroundNode, index) {
         var rule = '{background-image: url('+ lowbandwidthImageList[index] +');}';
         var selectors = backgroundNode.selectors.map(function(selector) {
-          return '.lowbandwidth ' + selector;
+          return '[data-net="lowbandwidth"] ' + selector;
         });
 
         root.nodes.splice(
