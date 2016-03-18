@@ -7,7 +7,7 @@ var getLowbandwidthImage = require('./lib/getLowbandwidthImage');
 
 var pkg = require('./package.json');
 
-var reg = /url\s*\(\s*['"]?([^\/][\w_\/\.\-]*)['"]?\)/;
+var reg = /url\s*\(\s*['"]?([^\/'"][\w_\/\.\-]*)['"]?\)/;
 
 module.exports = function(options, callback) {
   var context = this;
