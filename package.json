@@ -1,7 +1,7 @@
 {
   "name": "miaow-lowbandwidth-task",
   "description": "生成低带宽模式背景图片引用",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "license": "MIT",
   "dependencies": {
     "async": "1.5.2",
